@@ -1,6 +1,6 @@
 # Minecraft Mappings
 
-This "tool" creates transitive (t)srg mappings for various Minecraft versions.
+This "tool" creates transitive mappings for various Minecraft versions.
 
 All the mappings can be translated to one another for a given version: `spigot2mcp.srg`, `srg2obf.mcp`, etc.
 
@@ -21,6 +21,13 @@ Supported versions:
 | 1.8.8  | &#x2713; | &#x2713; | &#x2713; |          |
 | 1.8    | &#x2713; | &#x2713; | &#x2713; |          |
 | 1.7.10 |          | &#x2713; | &#x2713; |          |
+
+Supported formats:
+
+- SRG
+- TSRG
+- Tiny <small>(fields descriptors don't exist)</small>
+- JSON
 
 These mappings were made possible by @Techcable, the MCP team, Bukkit, SpigotMC, FabricMC, and various other people.
 

@@ -77,11 +77,11 @@ enum class MinecraftVersion(
     fun write(mappingsFolder: File) {
         val outputFolder = File(mappingsFolder, mcVersion)
         outputFolder.mkdirs()
+
         fun Mappings.writeTo(fileName: String) {
             println("$mcVersion: writing mappings to $fileName.srg")
             val lines = MappingsFormat.SEARGE_FORMAT.toLines(stripDuplicates(this))
             lines.sort()
-
 
             val file = File(outputFolder, "$fileName.srg")
             file.bufferedWriter().use {
@@ -95,6 +95,7 @@ enum class MinecraftVersion(
             TSrgUtil.fromSrg(file, File(outputFolder, "$fileName.tsrg"))
         }
 
+        // srg & tsrg
         val generatedMappings = generateMappings()
         generatedMappings.forEach { pair ->
             val fileName = pair.first
@@ -102,8 +103,26 @@ enum class MinecraftVersion(
             mappings.writeTo(fileName)
         }
 
-        val classMappings = MultimapBuilder.hashKeys(1000).arrayListValues().build<JavaType, Pair<String, JavaType>>()
-        val fieldMappings = MultimapBuilder.hashKeys(1000).arrayListValues().build<FieldData, Pair<String, FieldData>>()
+        // tiny
+        println("$mcVersion: writing tiny mappings to $mcVersion.tiny")
+        val tinyMappings = tiny.Mappings()
+        generatedMappings.filter { it.first.startsWith("obf2") }.forEach { pair ->
+            val name = pair.first.split("2")[1]
+
+            tinyMappings.addMappings(name, pair.second)
+        }
+        File(outputFolder, "$mcVersion.tiny").bufferedWriter().use {
+            for (line in tinyMappings.toStrings()) {
+                it.write(line)
+                it.write("\n")
+            }
+        }
+
+        // json
+        val classMappings =
+            MultimapBuilder.hashKeys(1000).arrayListValues().build<JavaType, Pair<String, JavaType>>()
+        val fieldMappings =
+            MultimapBuilder.hashKeys(1000).arrayListValues().build<FieldData, Pair<String, FieldData>>()
         val methodMappings =
             MultimapBuilder.hashKeys(1000).arrayListValues().build<MethodData, Pair<String, MethodData>>()
         generatedMappings.filter { it.first.startsWith("obf2") }.forEach { pair ->
