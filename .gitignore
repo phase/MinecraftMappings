@@ -1,0 +1,9 @@
+mappings/
+bin
+cache
+.idea
+*.iml
+__pycache__
+.atom_jvm_classpath
+build/
+.gradle/
