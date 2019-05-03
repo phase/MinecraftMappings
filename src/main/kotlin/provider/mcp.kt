@@ -140,7 +140,7 @@ fun downloadMcpMappings(srgMappings: Mappings, mappingsVersion: String): Mapping
 }
 
 fun downloadSrgMappings(minecraftVersion: String): Mappings {
-    val cacheFile = File("cache/mcp-${minecraftVersion}-joined.srg")
+    val cacheFile = File("cache/mcp-$minecraftVersion-joined.srg")
     if (!cacheFile.exists()) {
         cacheFile.parentFile.mkdirs()
         try {

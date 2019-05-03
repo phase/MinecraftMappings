@@ -53,8 +53,8 @@ enum class MinecraftVersion(
             mappings.add(Pair(obf2spigotMappings, "spigot"))
         }
         if (yarn) {
-            val obf2yarnMappings = getYarnMappings(mcVersion)
-            mappings.add(Pair(obf2yarnMappings, "yarn"))
+            val obf2yarnMappingsSet = getYarnMappings(mcVersion)
+            obf2yarnMappingsSet.forEach { id, m -> mappings.add(Pair(m, id)) }
         }
 
         val completeMappings = mutableListOf<Pair<String, Mappings>>()
@@ -80,12 +80,22 @@ enum class MinecraftVersion(
 
         fun Mappings.writeTo(fileName: String) {
             println("$mcVersion: writing mappings to $fileName.srg")
-            val lines = MappingsFormat.SEARGE_FORMAT.toLines(stripDuplicates(this))
-            lines.sort()
-
+            val strippedMappings = stripDuplicates(this)
+            val srgLines = MappingsFormat.SEARGE_FORMAT.toLines(strippedMappings)
+            srgLines.sort()
             val file = File(outputFolder, "$fileName.srg")
             file.bufferedWriter().use {
-                for (line in lines) {
+                for (line in srgLines) {
+                    it.write(line)
+                    it.write("\n")
+                }
+            }
+
+            println("$mcVersion: writing mappings to $fileName.crg")
+            val csrgLines = MappingsFormat.COMPACT_SEARGE_FORMAT.toLines(strippedMappings)
+            csrgLines.sort()
+            File(outputFolder, "$fileName.csrg").bufferedWriter().use {
+                for (line in csrgLines) {
                     it.write(line)
                     it.write("\n")
                 }

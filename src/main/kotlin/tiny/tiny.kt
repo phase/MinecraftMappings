@@ -1,5 +1,11 @@
 package tiny
 
+import com.google.common.collect.ImmutableBiMap
+import net.techcable.srglib.FieldData
+import net.techcable.srglib.JavaType
+import net.techcable.srglib.MethodData
+import net.techcable.srglib.MethodSignature
+import net.techcable.srglib.mappings.ImmutableMappings
 import net.techcable.srglib.mappings.Mappings
 
 /**
@@ -7,7 +13,7 @@ import net.techcable.srglib.mappings.Mappings
  */
 
 class Mappings(
-    val namespaces: MutableList<String>,
+    var namespaces: MutableList<String>,
     val classes: MutableList<ClassMapping>,
     val fields: MutableList<FieldMapping>,
     val methods: MutableList<MethodMapping>
@@ -64,6 +70,54 @@ class Mappings(
         entryMappings.addAll(methods.map { it.toString(namespaces) })
         return entryMappings
     }
+
+    fun toMappings(): Map<String, Mappings> = namespaces.map { namespace ->
+        val classMappings = ImmutableBiMap.copyOf(classes.mapNotNull {
+            try {
+                Pair(
+                    JavaType.fromDescriptor("L${it.source};"),
+                    JavaType.fromDescriptor("L${(it[namespace] ?: it.source).replace('/', '.')};")
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }.toMap())
+        val fieldDatas = fields.mapNotNull {
+            try {
+                it to FieldData.create(JavaType.fromDescriptor("L${it.sourceClass};"), it.source)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+        val methodDatas = methods.mapNotNull {
+            try {
+                it to MethodData.create(
+                    JavaType.fromDescriptor("L${it.sourceClass};"),
+                    it.source,
+                    MethodSignature.fromDescriptor(it.desc)
+                )
+            } catch (e: Exception) {
+                // e.printStackTrace() // yarn data has numbers in it for some reason?
+                null
+            }
+        }
+        val fieldMappings = ImmutableBiMap.copyOf(fieldDatas.map { (field, fieldData) ->
+            Pair(fieldData, fieldData.mapTypes { classMappings[it] ?: it }.withName(field[namespace] ?: field.source))
+        }.toMap())
+        val methodMappings = ImmutableBiMap.copyOf(methodDatas.map { (method, methodData) ->
+            Pair(
+                methodData,
+                methodData.mapTypes { classMappings[it] ?: it }.withName(method[namespace] ?: method.source)
+            )
+        }.toMap())
+        val namespace = when (namespace) {
+            "named" -> "yarn"
+            else -> namespace
+        }
+        namespace to ImmutableMappings.create(classMappings, methodMappings, fieldMappings)
+    }.toMap()
 }
 
 interface EntryMapping {
