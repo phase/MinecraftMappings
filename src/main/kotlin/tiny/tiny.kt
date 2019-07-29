@@ -64,7 +64,7 @@ class Mappings(
     }
 
     fun toStrings(): List<String> {
-        val entryMappings = mutableListOf("v1\t${namespaces.joinToString("\t")}")
+        val entryMappings = mutableListOf("v1\tofficial\t${namespaces.joinToString("\t")}")
         entryMappings.addAll(classes.map { it.toString(namespaces) })
         entryMappings.addAll(fields.map { it.toString(namespaces) })
         entryMappings.addAll(methods.map { it.toString(namespaces) })
@@ -139,7 +139,7 @@ interface EntryMapping {
             is MethodMapping -> "METHOD"
             else -> "UNKNOWN"
         }
-        return "$kind\t${toString()}\t$line"
+        return "$kind\t${toString()}\t$line".replace('.', '/')
     }
 }
 
