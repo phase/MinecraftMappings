@@ -1,6 +1,6 @@
 # Minecraft Mappings
 
-This "tool" creates transitive mappings for various Minecraft versions.
+This tool creates transitive mappings for various Minecraft versions.
 
 All the mappings can be translated to one another for a given version: `spigot2mcp.srg`, `srg2obf.mcp`, etc.
 
@@ -8,6 +8,9 @@ Supported versions:
 
 |        | Spigot   | MCP      | Searge   | Yarn     | Intermediary |
 |--------|----------|----------|----------|----------|--------------|
+| 1.15.2 | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
+| 1.15.1 | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
+| 1.15   | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
 | 1.14.4 | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
 | 1.14.3 | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
 | 1.14.2 | &#x2713; | &#x2713; | &#x2713; | &#x2713; | &#x2713;     |
@@ -22,6 +25,7 @@ Supported versions:
 | 1.10.2 | &#x2713; | &#x2713; | &#x2713; |          |              |
 | 1.9.4  | &#x2713; | &#x2713; | &#x2713; |          |              |
 | 1.9    | &#x2713; | &#x2713; | &#x2713; |          |              |
+| 1.8.9  |          | &#x2713; | &#x2713; |          |              |
 | 1.8.8  | &#x2713; | &#x2713; | &#x2713; |          |              |
 | 1.8    | &#x2713; | &#x2713; | &#x2713; |          |              |
 | 1.7.10 |          | &#x2713; | &#x2713; |          |              |

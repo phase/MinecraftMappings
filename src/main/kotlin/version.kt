@@ -18,6 +18,9 @@ enum class MinecraftVersion(
     val spigot: Boolean = false,
     val yarn: Boolean = false
 ) {
+    V1_15_2("1.15.2", "snapshot_20200515", true, true, true),
+    V1_15_1("1.15.1", "snapshot_20191217", true, true, true),
+    V1_15("1.15", "snapshot_nodoc_20191212", true, true, true),
     V1_14_4("1.14.4", "snapshot_nodoc_20190729", true, true, true),
     V1_14_3("1.14.3", "snapshot_nodoc_20190729", true, true, true),
     V1_14_2("1.14.2", "stable_nodoc_53", false, true, true),
@@ -32,6 +35,7 @@ enum class MinecraftVersion(
     V1_10_2("1.10.2", "snapshot_nodoc_20160703", false, true, false),
     V1_9_4("1.9.4", "snapshot_nodoc_20160604", false, true, false),
     V1_9("1.9", "snapshot_nodoc_20160516", false, true, false),
+    V1_8_9("1.8.9", "snapshot_nodoc_20160301", false, false, false),
     V1_8_8("1.8.8", "snapshot_nodoc_20151216", false, true, false),
     V1_8("1.8", "snapshot_nodoc_20141130", false, true, false),
     V1_7_10("1.7.10", "snapshot_nodoc_20140925", false, false, false);
