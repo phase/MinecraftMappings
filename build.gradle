@@ -10,9 +10,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.techcable.net/content/groups/public/"
-    }
+    maven { url 'https://jitpack.io' }
     maven {
         name "Modmuss50 Repository"
         url 'https://maven.modmuss50.me'
@@ -24,7 +22,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile "net.techcable:srglib:0.1.2"
+    compile 'com.github.phase:SrgLib:master-SNAPSHOT'
     compile "com.opencsv:opencsv:3.9"
     compile "com.google.code.gson:gson:2.8.0"
     compile "com.google.guava:guava:21.0"
