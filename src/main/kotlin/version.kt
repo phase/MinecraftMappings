@@ -16,12 +16,13 @@ enum class MinecraftVersion(
     val mcpVersion: String? = null,
     val mcpConfig: Boolean = false,
     val spigot: Boolean = false,
-    val yarn: Boolean = false
+    val yarn: Boolean = false,
+    val mojang: Boolean = false
 ) {
-    V1_15_2("1.15.2", "snapshot_20200515", true, true, true),
-    V1_15_1("1.15.1", "snapshot_20191217", true, true, true),
-    V1_15("1.15", "snapshot_nodoc_20191212", true, true, true),
-    V1_14_4("1.14.4", "snapshot_nodoc_20190729", true, true, true),
+    V1_15_2("1.15.2", "snapshot_20200515", true, true, true, true),
+    V1_15_1("1.15.1", "snapshot_20191217", true, true, true, true),
+    V1_15("1.15", "snapshot_nodoc_20191212", true, true, true, true),
+    V1_14_4("1.14.4", "snapshot_nodoc_20190729", true, true, true, true),
     V1_14_3("1.14.3", "snapshot_nodoc_20190729", true, true, true),
     V1_14_2("1.14.2", "stable_nodoc_53", false, true, true),
     V1_14_1("1.14.1", "stable_nodoc_51", false, true, true),
@@ -63,6 +64,10 @@ enum class MinecraftVersion(
         if (yarn) {
             val obf2yarnMappingsSet = getYarnMappings(mcVersion)
             obf2yarnMappingsSet.forEach { id, m -> mappings.add(Pair(m, id)) }
+        }
+        if (mojang) {
+            val obf2mojangMappingSet = MojangMappings.getMappings(mcVersion)
+            mappings.add(Pair(obf2mojangMappingSet, "mojang"))
         }
 
         val completeMappings = mutableListOf<Pair<String, Mappings>>()
